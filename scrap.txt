@@ -1,0 +1,63 @@
+    file.open(filename);
+    if(!file.is_open())
+    {
+        cerr<<"\nError Occurred!";
+        return 1;
+    }
+    
+        if (file.is_open()) {
+        // Get the file size
+        file.seekg(0, fstream::end);
+        streampos fileSize = file.tellg();
+
+        // Check if the file is empty
+        if (fileSize == 0) {
+            cout << "File is empty" << endl;
+            return 0;
+        }
+
+        // Set the position to the last character
+        file.seekg(-1, fstream::end);
+
+        // Move backwards until we find the beginning of the last line
+        while (file.tellg() > 0 && file.peek() != '\n') {
+            file.seekg(-1, fstream::cur);
+        }
+
+        // Check if the last character is a newline
+        if (file.tellg() > 0 && file.peek() == '\n') {
+            // Move past the newline character
+            file.seekg(-1, fstream::cur);
+        }
+
+        // Read the last line
+        string lastLine;
+        getline(file, lastLine);
+        cout << "Last line: " << lastLine << endl;
+
+        file.close();
+    } else {
+        cerr << "Error: Could not open file" << endl;
+        return 1;
+    }
+
+
+
+
+
+    while(getline(cin, input))
+    {
+
+        if (input.empty()) {
+            cerr<<"Unsuccessful Read! Enter the Data: ";
+            continue;
+        }
+        if (input == "exit") break;
+        file<< datastr << endl;
+        if (file.fail()) {
+            cerr << "Error: Failed to write to file " << filename << endl;
+            file.close();
+            return 1;
+        }
+        cout<<"Enter the Data: ";
+    }
